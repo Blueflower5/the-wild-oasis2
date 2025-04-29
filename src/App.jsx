@@ -2,11 +2,7 @@ import styled from "styled-components";
 import GlobalStyles from "./styles/GlobalStyles";
 import Button from "./ui/Button";
 import Input from "./ui/input";
-const H1 = styled.h1`
-  font-size: 30px;
-  font-weight: 600;
-  background-color: yellow;
-`;
+import Heading from "./ui/Heading";
 
 //
 const StyledApp = styled.div`
@@ -20,7 +16,9 @@ function App() {
       {/* this global style cant accpet any props */}
       <GlobalStyles />
       <StyledApp>
-        <H1>Hello World</H1>
+        <Heading as="h1">Hello World h1</Heading>
+        <Heading as="h2">Hello World h2</Heading>
+        <Heading as="h3">Hello World h3</Heading>
         {/* we can pass the props in button like regular botton when use styled css */}
         <Button onClick={() => alert("Check in")}>Check in</Button>
         <Button onClick={() => alert("Check out")}>Check out</Button>
