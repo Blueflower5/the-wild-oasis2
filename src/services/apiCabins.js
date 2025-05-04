@@ -8,6 +8,17 @@ export async function getCabins() {
   }
   return data;
 }
+export async function createCabin(newCabin) {
+  const { data, error } = await supabase
+    .from("cabins")
+    // our fields name that we submited to the useForm is exactly the name that we defined in cabin so it will work when we just pass cabin as an array.
+    .insert([newCabin]);
+  if (error) {
+    console.log(error);
+    throw new Error("cabin could not be created");
+  }
+  return data;
+}
 export async function deleteCabin(id) {
   const { data, error } = await supabase.from("cabins").delete().eq("id", id);
   if (error) {
