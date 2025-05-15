@@ -5,14 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import CabinTable from "../features/cabins/CabinTable";
 
 function Cabins() {
-  const {
-    data: cabins,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["cabin"],
-    queryFn: getCabins,
-  });
   return (
     <>
       <Row type="horizontal">
