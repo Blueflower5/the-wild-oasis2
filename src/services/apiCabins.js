@@ -49,3 +49,38 @@ export async function deleteCabin(id) {
   }
   return data;
 }
+
+export async function updateCabin({ id, ...data }) {
+  // If a new image file is provided, upload it and update the image path
+  let imagePath = data.image;
+  if (data.image && data.image instanceof File) {
+    const imageName = `${Math.random()}-${data.image.name}`.replaceAll("/", "");
+    imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+    const { error: storageError } = await supabase.storage
+      .from("cabin-images")
+      .upload(imageName, data.image);
+
+    if (storageError) {
+      throw new Error("Image upload failed");
+    }
+  }
+
+  // Remove image file from data if present, and set image path if updated
+  const updateData = { ...data };
+  if (data.image && data.image instanceof File) {
+    updateData.image = imagePath;
+  } else {
+    delete updateData.image; // Don't update image if not provided
+  }
+
+  const { data: updatedCabin, error } = await supabase
+    .from("cabins")
+    .update(updateData)
+    .eq("id", id)
+    .select();
+
+  if (error) {
+    throw new Error("Cabin could not be updated");
+  }
+  return updatedCabin;
+}
